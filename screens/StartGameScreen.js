@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert} from 'react-native';
+import { View, TextInput, Text, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 
 import Card from '../components/Card';
 import Colors from '../constants/colors';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
+import BodyText from '../components/BodyText';
+
+import MainButton from '../components/MainButton';
 
 
 
@@ -25,7 +28,7 @@ const StartGameScreen = props => {
 
     const confirmInputHandler = () => {
         const chooseNumber = parseInt(enteredValue);
-        if(isNaN(chooseNumber) || chooseNumber <= 0 || chooseNumber > 99){
+        if (isNaN(chooseNumber) || chooseNumber <= 0 || chooseNumber > 99) {
             Alert.alert('Invalid Number', 'Number must be a number between 1 and 99.', [{ text: 'Okay', style: 'destructive', onPress: resetInputHanlder }])
             return;
         }
@@ -37,22 +40,26 @@ const StartGameScreen = props => {
 
     let confirmedOutput;
 
-    if(confirmed){
+    if (confirmed) {
         confirmedOutput = (
-        <Card style={styles.summaryContainer}>
-            <Text>You choose</Text>
-        <NumberContainer>{selectedNumber}</NumberContainer>
-        <Button title="START GAME" onPress={() => props.onStartGame(selectedNumber)}/>
-        </Card>
+            <Card style={styles.summaryContainer}>
+                <Text>You choose</Text>
+                <NumberContainer>{selectedNumber}</NumberContainer>
+                <MainButton
+                    onPress={() => props.onStartGame(selectedNumber)}>
+                    START GAME
+                </MainButton>
+            </Card>
         )
     }
 
     return (
-        <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss();}}>
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
             <View style={styles.screen}>
                 <Text style={styles.title}>Start New Game</Text>
                 <Card style={styles.inputContainer} >
-                    <Text>Choose a number</Text>
+                    <BodyText>Choose a number</BodyText>
+
                     <Input style={styles.input}
                         blurOnSubmit
                         autoCapitalize="none"
@@ -62,6 +69,7 @@ const StartGameScreen = props => {
                         onChangeText={numberInputHandler}
                         value={enteredValue}
                     />
+
                     <View style={styles.buttonContainer}>
                         <View style={styles.button}>
                             <Button title="Reset" onPress={resetInputHanlder} color={Colors.accent} />
@@ -86,12 +94,13 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        marginVertical: 10
+        marginVertical: 10,
+        fontFamily: 'monoid-retina'
     },
     inputContainer: {
         width: 300,
         maxWidth: '80%',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -107,11 +116,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 30,
         fontWeight: 'bold'
-    }, 
+    },
     summaryContainer: {
         marginTop: 20,
         alignItems: 'center'
-
     }
 });
 
